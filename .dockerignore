@@ -1,0 +1,10 @@
+.git
+**/node_modules
+web/dist
+**/bin
+deploy/.env
+deploy/data
+data
+*.db
+*.db-wal
+*.db-shm

@@ -1,0 +1,28 @@
+# HomeXDR in a single container, storing events in SQLite. Fine for a handful of hosts
+# or for trying it out:
+#   docker compose -f docker-compose.lite.yml up -d --build
+name: homexdr-lite
+
+services:
+  homexdr:
+    build:
+      context: ..
+    image: homexdr/server:local
+    restart: unless-stopped
+    environment:
+      HOMEXDR_EVENT_STORE: sqlite
+      HOMEXDR_SERVER_NAMES: ${HOMEXDR_SERVER_NAMES:?set HOMEXDR_SERVER_NAMES in .env}
+      HOMEXDR_AGENT_URL: ${HOMEXDR_AGENT_URL:-}
+      HOMEXDR_RETENTION_DAYS: ${HOMEXDR_RETENTION_DAYS:-14}
+      HOMEXDR_SECURE_COOKIES: ${HOMEXDR_SECURE_COOKIES:-false}
+      HOMEXDR_SYSLOG_ALLOW: ${HOMEXDR_SYSLOG_ALLOW:-}
+    ports:
+      - "${HOMEXDR_CONSOLE_PORT:-8080}:8080/tcp"
+      - "${HOMEXDR_AGENT_PORT:-8443}:8443/tcp"
+      - "${HOMEXDR_SYSLOG_PORT:-514}:5514/udp"
+      - "${HOMEXDR_SYSLOG_PORT:-514}:5514/tcp"
+    volumes:
+      - data:/data
+
+volumes:
+  data:

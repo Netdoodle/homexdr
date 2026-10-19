@@ -60,8 +60,17 @@ func NewRuleSet(c *Core) *RuleSet {
 // Reload reads built-in rules from disk and custom rules and overrides from the database.
 func (rs *RuleSet) Reload(ctx context.Context) error {
 	builtin, errs := detect.LoadDir(rs.c.Cfg.RulesDir)
-	for _, e := range errs {
-		rs.c.Log.Warn("rule failed to load", "path", e.Path, "err", e.Err)
+	// Large community rule sets contain rules this engine cannot run (aggregations,
+	// unsupported modifiers); log a few and keep the rest at debug level.
+	for i, e := range errs {
+		if i < 10 {
+			rs.c.Log.Warn("rule failed to load", "path", e.Path, "err", e.Err)
+		} else {
+			rs.c.Log.Debug("rule failed to load", "path", e.Path, "err", e.Err)
+		}
+	}
+	if len(errs) > 10 {
+		rs.c.Log.Warn("more rules failed to load; see the Rules page or set HOMEXDR_LOG_LEVEL=debug", "count", len(errs)-10)
 	}
 	rows, err := rs.c.State.ListRuleRows(ctx)
 	if err != nil {
