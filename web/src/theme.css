@@ -1,0 +1,201 @@
+/*
+ * HomeXDR design tokens. Dark is the default; light follows prefers-color-scheme unless
+ * the user picked a theme (html[data-theme]). Components reference only these tokens.
+ *
+ * Severity colors are used for marks (dots, bars, borders, tints), never as text color;
+ * every severity is also shown as a text label. The set was checked for adjacent-pair
+ * color-vision-deficiency separation against both panel surfaces.
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* surfaces */
+  --bg: #0b0e13;
+  --surface-1: #121721;
+  --surface-2: #171d29;
+  --surface-3: #1e2533;
+  --surface-hover: #1c2330;
+  --surface-selected: #1a2740;
+  --overlay: rgba(4, 6, 10, 0.66);
+
+  /* lines */
+  --border: #262f3f;
+  --border-strong: #34405a;
+  --grid: #222a38;
+
+  /* ink */
+  --text: #e6e9ef;
+  --text-2: #b0b8c6;
+  --text-muted: #8a94a6;
+  --text-faint: #6b7588;
+  --text-on-accent: #ffffff;
+
+  /* accent + states */
+  --accent: #4c8dff;
+  --accent-hover: #6a9fff;
+  --accent-soft: rgba(76, 141, 255, 0.16);
+  --focus: #7aa8ff;
+  --link: #8cb4ff;
+
+  --ok: #22b573;
+  --warn: #e8b923;
+  --danger: #ef4461;
+  --danger-hover: #ff5b76;
+  --danger-soft: rgba(239, 68, 97, 0.14);
+  --ok-soft: rgba(34, 181, 115, 0.14);
+  --warn-soft: rgba(232, 185, 35, 0.14);
+
+  /* severity marks */
+  --sev-critical: #e0245e;
+  --sev-high: #f27a2a;
+  --sev-medium: #e8b923;
+  --sev-low: #2f74f0;
+  --sev-informational: #8b95a5;
+
+  /* host status dots */
+  --status-online: #22b573;
+  --status-offline: #6b7588;
+  --status-isolated: #f27a2a;
+  --status-revoked: #ef4461;
+
+  /* chart */
+  --chart-bar: #4c8dff;
+  --chart-bar-alt: #8a7dff;
+  --chart-track: #1d2431;
+
+  /* code */
+  --code-bg: #0e131b;
+  --code-key: #8cb4ff;
+  --code-string: #9fd6a8;
+  --code-number: #f0b27a;
+  --code-bool: #d6a2f5;
+  --code-null: #8a94a6;
+
+  /* type */
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Mono', 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
+  --fs-xs: 11px;
+  --fs-sm: 12px;
+  --fs-md: 13px;
+  --fs-lg: 15px;
+  --fs-xl: 18px;
+  --fs-2xl: 24px;
+  --lh: 1.45;
+
+  /* shape */
+  --radius-sm: 4px;
+  --radius: 6px;
+  --radius-lg: 10px;
+  --shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+
+  /* layout */
+  --sidebar-w: 216px;
+  --sidebar-w-collapsed: 56px;
+  --topbar-h: 48px;
+  --gap: 12px;
+  --pad: 16px;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    color-scheme: light;
+    --bg: #eef1f5;
+    --surface-1: #ffffff;
+    --surface-2: #f6f8fb;
+    --surface-3: #eaeef4;
+    --surface-hover: #f1f4f9;
+    --surface-selected: #e3ecfd;
+    --overlay: rgba(15, 20, 30, 0.42);
+    --border: #d8dee8;
+    --border-strong: #bfc8d6;
+    --grid: #e4e8ef;
+    --text: #111722;
+    --text-2: #3c4555;
+    --text-muted: #5a6476;
+    --text-faint: #737d8f;
+    --accent: #2563eb;
+    --accent-hover: #1d4fd0;
+    --accent-soft: rgba(37, 99, 235, 0.1);
+    --focus: #2563eb;
+    --link: #1d4fd0;
+    --ok: #138a52;
+    --warn: #a87900;
+    --danger: #c81e4a;
+    --danger-hover: #a8173d;
+    --danger-soft: rgba(200, 30, 74, 0.09);
+    --ok-soft: rgba(19, 138, 82, 0.1);
+    --warn-soft: rgba(227, 177, 0, 0.14);
+    --sev-critical: #c81e4a;
+    --sev-high: #ea6a10;
+    --sev-medium: #e3b100;
+    --sev-low: #2563eb;
+    --sev-informational: #7b8494;
+    --status-online: #138a52;
+    --status-offline: #8a93a3;
+    --status-isolated: #ea6a10;
+    --status-revoked: #c81e4a;
+    --chart-bar: #2563eb;
+    --chart-bar-alt: #6250d6;
+    --chart-track: #edf0f5;
+    --code-bg: #f6f8fb;
+    --code-key: #1d4fd0;
+    --code-string: #17703a;
+    --code-number: #a04a00;
+    --code-bool: #7a2fb0;
+    --code-null: #5a6476;
+    --shadow: 0 10px 30px rgba(17, 23, 34, 0.16);
+    --shadow-sm: 0 1px 2px rgba(17, 23, 34, 0.08);
+  }
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #eef1f5;
+  --surface-1: #ffffff;
+  --surface-2: #f6f8fb;
+  --surface-3: #eaeef4;
+  --surface-hover: #f1f4f9;
+  --surface-selected: #e3ecfd;
+  --overlay: rgba(15, 20, 30, 0.42);
+  --border: #d8dee8;
+  --border-strong: #bfc8d6;
+  --grid: #e4e8ef;
+  --text: #111722;
+  --text-2: #3c4555;
+  --text-muted: #5a6476;
+  --text-faint: #737d8f;
+  --accent: #2563eb;
+  --accent-hover: #1d4fd0;
+  --accent-soft: rgba(37, 99, 235, 0.1);
+  --focus: #2563eb;
+  --link: #1d4fd0;
+  --ok: #138a52;
+  --warn: #a87900;
+  --danger: #c81e4a;
+  --danger-hover: #a8173d;
+  --danger-soft: rgba(200, 30, 74, 0.09);
+  --ok-soft: rgba(19, 138, 82, 0.1);
+  --warn-soft: rgba(227, 177, 0, 0.14);
+  --sev-critical: #c81e4a;
+  --sev-high: #ea6a10;
+  --sev-medium: #e3b100;
+  --sev-low: #2563eb;
+  --sev-informational: #7b8494;
+  --status-online: #138a52;
+  --status-offline: #8a93a3;
+  --status-isolated: #ea6a10;
+  --status-revoked: #c81e4a;
+  --chart-bar: #2563eb;
+  --chart-bar-alt: #6250d6;
+  --chart-track: #edf0f5;
+  --code-bg: #f6f8fb;
+  --code-key: #1d4fd0;
+  --code-string: #17703a;
+  --code-number: #a04a00;
+  --code-bool: #7a2fb0;
+  --code-null: #5a6476;
+  --shadow: 0 10px 30px rgba(17, 23, 34, 0.16);
+  --shadow-sm: 0 1px 2px rgba(17, 23, 34, 0.08);
+}

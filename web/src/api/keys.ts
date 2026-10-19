@@ -1,0 +1,35 @@
+// React Query cache keys, in one place so mutations can invalidate precisely.
+
+import type { AlertFilter, HostFilter, RuleFilter, SearchRequest, TimelineFilter } from './types'
+
+export const queryKeys = {
+  setup: ['setup'] as const,
+  me: ['me'] as const,
+  overview: (hours: number) => ['overview', hours] as const,
+  hosts: (f?: HostFilter) => (f ? (['hosts', f] as const) : (['hosts'] as const)),
+  host: (id: string) => ['host', id] as const,
+  hostCommands: (id: string) => ['host', id, 'commands'] as const,
+  hostTimeline: (id: string, f: TimelineFilter) => ['host', id, 'timeline', f] as const,
+  command: (id: string) => ['command', id] as const,
+  commandRows: (id: string, offset: number) => ['command', id, 'rows', offset] as const,
+  search: (r: SearchRequest) => ['search', r] as const,
+  event: (id: string) => ['event', id] as const,
+  processTree: (hostId: string, entityId: string, depth: number) => ['process-tree', hostId, entityId, depth] as const,
+  processEvents: (hostId: string, entityId: string, category?: string) =>
+    ['process-events', hostId, entityId, category ?? 'all'] as const,
+  alerts: (f?: AlertFilter) => (f ? (['alerts', f] as const) : (['alerts'] as const)),
+  alert: (id: string) => ['alert', id] as const,
+  rules: (f?: RuleFilter) => (f ? (['rules', f] as const) : (['rules'] as const)),
+  rule: (id: string) => ['rule', id] as const,
+  artifacts: ['artifacts'] as const,
+  hunts: ['hunts'] as const,
+  hunt: (id: string) => ['hunt', id] as const,
+  huntResults: (id: string, hostId: string, offset: number) => ['hunt', id, 'results', hostId, offset] as const,
+  serverSettings: ['settings', 'server'] as const,
+  tokens: ['settings', 'tokens'] as const,
+  agentConfig: ['settings', 'agent-config'] as const,
+  users: ['settings', 'users'] as const,
+  audit: (offset: number) => ['settings', 'audit', offset] as const,
+  integrations: ['settings', 'integrations'] as const,
+  health: ['health'] as const,
+}

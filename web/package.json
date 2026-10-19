@@ -1,0 +1,36 @@
+{
+  "name": "homexdr-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "HomeXDR web console",
+  "license": "Apache-2.0",
+  "scripts": {
+    "dev": "vite",
+    "dev:mock": "vite --mode mock",
+    "build": "tsc -b && vite build",
+    "build:mock": "tsc -b && vite build --mode mock",
+    "preview": "vite preview",
+    "typecheck": "tsc -b",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.90.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router": "^7.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.2.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.3.0",
+    "vitest": "^3.2.7"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
