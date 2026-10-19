@@ -1,0 +1,35 @@
+# Build output
+/bin/
+/dist/
+*.exe
+*.test
+*.out
+coverage.*
+
+# Go
+/agent/bin/
+/server/bin/
+
+# Web
+/web/node_modules/
+/web/dist/
+/web/.vite/
+*.tsbuildinfo
+
+# Server embeds the built console; only the placeholder is tracked
+/server/internal/webui/dist/*
+!/server/internal/webui/dist/index.html
+
+# Local runtime data
+/data/
+/deploy/.env
+/deploy/data/
+*.db
+*.db-wal
+*.db-shm
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
