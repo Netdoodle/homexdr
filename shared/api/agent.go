@@ -44,11 +44,18 @@ const (
 // EnrollRequest is POSTed to PathEnroll. The agent generates an ECDSA P-256 key, keeps
 // the private key on disk, and sends a CSR. The server ignores the CSR subject and issues
 // a certificate whose CommonName is the new agent ID.
+//
+// The server's TLS handshake presents [server cert, CA cert]. Before enrolling, the agent
+// checks that SHA-256 of the CA certificate's DER equals the --ca-pin value and that the
+// server cert chains to it with the ServerAuth key usage. Hostname matching is not
+// required: the private, pinned CA only ever issues one server certificate.
 type EnrollRequest struct {
 	Token        string   `json:"token"`
 	CSRPEM       string   `json:"csr_pem"`
 	AgentVersion string   `json:"agent_version"`
 	Host         HostInfo `json:"host"`
+	// Labels are added to the token's labels.
+	Labels []string `json:"labels,omitempty"`
 }
 
 // EnrollResponse is returned on successful enrollment.

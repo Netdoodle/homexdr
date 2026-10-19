@@ -188,7 +188,7 @@ func (p *PKI) loadOrCreateServerCert(names []string) error {
 		cert, key, err := loadPair(certPath, keyPath)
 		if err == nil && slices.Equal(certNames(cert), want) &&
 			time.Until(cert.NotAfter) > 30*24*time.Hour && cert.CheckSignatureFrom(p.CACert) == nil {
-			p.serverCert = tls.Certificate{Certificate: [][]byte{cert.Raw}, PrivateKey: key, Leaf: cert}
+			p.serverCert = tls.Certificate{Certificate: [][]byte{cert.Raw, p.CACert.Raw}, PrivateKey: key, Leaf: cert}
 			return nil
 		}
 	}
@@ -227,7 +227,8 @@ func (p *PKI) loadOrCreateServerCert(names []string) error {
 	if err := writePair(certPath, keyPath, der, key); err != nil {
 		return err
 	}
-	p.serverCert = tls.Certificate{Certificate: [][]byte{der}, PrivateKey: key, Leaf: cert}
+	// Present the CA too, so agents can check it against their --ca-pin during enrollment.
+	p.serverCert = tls.Certificate{Certificate: [][]byte{der, p.CACert.Raw}, PrivateKey: key, Leaf: cert}
 	return nil
 }
 

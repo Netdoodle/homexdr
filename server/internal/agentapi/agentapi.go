@@ -128,7 +128,8 @@ func (h *Handler) enroll(w http.ResponseWriter, r *http.Request) {
 		writeErr(w, http.StatusBadRequest, err.Error())
 		return
 	}
-	host, err := h.c.State.CreateEndpoint(r.Context(), agentID, req.Host, tok.Labels, serial)
+	labels := append(append([]string{}, tok.Labels...), req.Labels...)
+	host, err := h.c.State.CreateEndpoint(r.Context(), agentID, req.Host, labels, serial)
 	if err != nil {
 		h.c.Log.Error("enroll: create host", "err", err)
 		writeErr(w, http.StatusInternalServerError, "internal error")
