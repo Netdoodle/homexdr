@@ -19,6 +19,11 @@ agent                                         server
   │  in the data dir (0600 / SYSTEM-only ACL)    │
 ```
 
+- The server's TLS handshake presents `[server cert, CA cert]`, so the agent can check the
+  CA against the pin before sending anything. The server cert must chain to that CA with the
+  ServerAuth key usage; the hostname is not checked, because the private, pinned CA only ever
+  issues one server certificate, and that way agents keep working when the server's IP changes.
+- Labels from the request are added to the enrollment token's labels.
 - `401` bad or expired token, `409` token used up, `400` malformed CSR.
 - The agent's stored identity survives restarts and upgrades. Re-enrolling creates a new host.
 - Certificates are renewed by re-enrolling for now (renewal endpoint is future work).
@@ -61,6 +66,10 @@ they appear in the host timeline.
 
 The agent listener also serves, without a client certificate:
 
+- `GET /v1/ca.crt` the CA certificate (PEM), checked against the pin by the install script
 - `GET /v1/download/homexdr-agent-<os>-<arch>[.exe]` agent binaries bundled in the image
-- `GET /v1/install/linux.sh` an install script that downloads the binary, verifies its
-  SHA-256 from `GET /v1/download/SHA256SUMS`, installs a systemd unit and enrolls
+- `GET /v1/install/linux.sh` an install script that fetches `/v1/ca.crt`, checks it against
+  `--ca-pin`, then downloads the binary and `SHA256SUMS` over TLS verified by that CA, checks
+  the checksum, and runs `homexdr-agent install`. Fetching the script itself (`curl -k`) is the
+  one unverified step; review the script once, or copy the agent binary manually, if that
+  matters on your network.
