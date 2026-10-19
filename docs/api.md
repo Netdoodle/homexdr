@@ -85,8 +85,8 @@ type Host = {
 ## Commands (response actions and collections)
 
 `CommandType` is one of `process.kill`, `host.isolate`, `host.release`,
-`file.quarantine`, `file.restore`, `file.get`, `file.hash`, `artifact.collect`,
-`shell.exec`. Params match `shared/api/agent.go` (`KillParams`, `IsolateParams`, ...). The
+`file.quarantine`, `file.restore`, `file.get`, `file.hash`, `artifact.collect`.
+There is no arbitrary-command type. Params match `shared/api/agent.go` (`KillParams`, `IsolateParams`, ...). The
 server rejects types not in the host's `allowed_actions` with `409`.
 
 | Method | Path | Notes |

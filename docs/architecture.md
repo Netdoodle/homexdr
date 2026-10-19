@@ -76,10 +76,14 @@ directive, so modules build independently without a `go.work` file.
   agent refuses to enroll unless `--insecure-tofu` is given.
 - **Commands are signed.** The agent pins the command key at enrollment and rejects any
   command that fails verification, is expired, targets another agent, or was seen before.
-- **Local policy beats the server.** Each agent's local config file lists the command types
-  it will run (`allowed_actions`). `shell.exec` is off by default. The server cannot change
-  this file, so a compromised server cannot run arbitrary code on hosts whose owners did not
-  allow it.
+- **No remote shell.** Every response action is a fixed, typed operation (kill a process,
+  isolate, quarantine a file, run a built-in read-only collector). There is no command that
+  runs arbitrary programs, so a compromised server cannot use agents for code execution.
+- **Local policy beats the server.** Each agent's local config file lists the action types
+  it will run (`allowed_actions`). The server cannot change this file.
+- **The agent is visible, not stealthy.** It installs as a normal named service
+  (`HomeXDR Agent` / `homexdr-agent.service`), logs what it does, and uninstalls cleanly. It
+  does not hide itself or resist removal by the machine's administrator.
 - **Isolation never cuts the agent off.** Host isolation always allows the server address,
   loopback, DHCP and DNS, so the host can always be released.
 - **Console auth.** Local users with bcrypt passwords and `HttpOnly`, `SameSite=Strict`

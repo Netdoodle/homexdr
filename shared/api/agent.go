@@ -254,8 +254,11 @@ const (
 	CmdFileGet        = "file.get"
 	CmdFileHash       = "file.hash"
 	CmdArtifact       = "artifact.collect"
-	CmdShell          = "shell.exec" // off by default in local policy
 )
+
+// There is deliberately no "run arbitrary command" type. Every action is a fixed,
+// typed operation, so the server (or anyone who compromises it) cannot turn the agent
+// into a remote shell.
 
 // DefaultAllowedActions is the local policy used when the agent config does not set one.
 var DefaultAllowedActions = []string{
@@ -367,17 +370,4 @@ type FileHashResult struct {
 type ArtifactParams struct {
 	Name   string            `json:"name"` // a name from Artifacts
 	Params map[string]string `json:"params,omitempty"`
-}
-
-// ShellParams for CmdShell.
-type ShellParams struct {
-	Command    string `json:"command"`
-	TimeoutSec int    `json:"timeout_sec,omitempty"`
-}
-
-// ShellResult is the output of CmdShell. Output is truncated to 1 MiB per stream.
-type ShellResult struct {
-	ExitCode int    `json:"exit_code"`
-	Stdout   string `json:"stdout"`
-	Stderr   string `json:"stderr"`
 }

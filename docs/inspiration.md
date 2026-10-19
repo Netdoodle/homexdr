@@ -44,8 +44,8 @@ What it does well:
 - **HTTP long-polling** client comms that work through proxies and NAT, with the server
   never needing to reach into the client network.
 - **Labels** as the main way to group clients.
-- 0.77 added interactive shell sessions; we treat remote shell as off-by-default and gated
-  by local agent policy.
+- 0.77 added interactive shell sessions. HomeXDR deliberately has no remote shell: every
+  action is a fixed, typed operation.
 
 What we do differently:
 
